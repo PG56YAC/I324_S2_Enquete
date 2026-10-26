@@ -1,0 +1,20 @@
+{
+  "name": "todo-equipe",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon -L src/index.js",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mysql2": "^3.16.1",
+    "sqlite3": "^5.1.7",
+    "uuid": "^13.0.0",
+    "wait-port": "^1.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
