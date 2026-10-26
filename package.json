@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -L src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "test": "jest"
   },
   "dependencies": {
     "express": "^5.2.1",
@@ -15,6 +16,17 @@
     "wait-port": "^1.1.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "jest": "^30.5.2"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.github/"
+    ]
   }
 }

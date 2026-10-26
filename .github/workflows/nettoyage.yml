@@ -1,0 +1,43 @@
+name: Nettoyage
+
+# Efface régulièrement les runs terminés et les commentaires du bot (plus de 10 minutes),
+# pour que les réponses ne restent pas visibles dans le dépôt public.
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: write
+
+concurrency:
+  group: nettoyage
+  cancel-in-progress: false
+
+jobs:
+  nettoyage:
+    name: Nettoyage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Supprimer les runs terminés
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          gh api --paginate "repos/$REPO/actions/runs?status=completed&per_page=100" \
+            --jq ".workflow_runs[] | select(.id != $RUN_ID) | select((now - (.updated_at | fromdateiso8601)) > 600) | .id" \
+          | while read -r id; do
+              gh api -X DELETE "repos/$REPO/actions/runs/$id" > /dev/null || true
+            done
+      - name: Supprimer les commentaires du bot
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          gh api --paginate "repos/$REPO/comments?per_page=100" \
+            --jq '.[] | select(.user.login == "github-actions[bot]") | select((now - (.created_at | fromdateiso8601)) > 600) | .id' \
+          | while read -r id; do
+              gh api -X DELETE "repos/$REPO/comments/$id" > /dev/null || true
+            done

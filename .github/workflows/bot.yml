@@ -1,0 +1,50 @@
+name: Bot
+
+on:
+  push:
+    branches-ignore: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bot-${{ github.actor }}
+  cancel-in-progress: false
+
+jobs:
+  bot:
+    name: Bot de l'enquête
+    if: github.event.deleted == false && github.actor != github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: git fetch --force origin '+refs/heads/*:refs/remotes/origin/*'
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+      - name: Installer les dépendances (version de main)
+        run: npm install --no-audit --no-fund
+      - name: Vérifier les missions
+        env:
+          ACTEUR: ${{ github.actor }}
+          REF: ${{ github.ref }}
+          AVANT: ${{ github.event.before }}
+          SORTIE: ${{ runner.temp }}/resultat.json
+        run: node .github/bot/bot.js
+      - name: Répondre à l'élève
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RES: ${{ runner.temp }}/resultat.json
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          node -e "const r=require(process.env.RES);if(r.commentaire)require('fs').writeFileSync('corps.json',JSON.stringify({body:r.commentaire}))"
+          if [ -f corps.json ]; then
+            gh api -X POST "repos/$REPO/commits/$SHA/comments" --input corps.json > /dev/null
+            echo "Réponse envoyée en commentaire sur le commit." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Aucun nouveau commit dans ce push : pas de réponse." >> "$GITHUB_STEP_SUMMARY"
+          fi
