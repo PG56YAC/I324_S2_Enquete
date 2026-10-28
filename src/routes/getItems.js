@@ -1,3 +1,4 @@
+// Renvoie toutes les tâches
 const db = require('../persistence');
 
 module.exports = async (req, res) => {
