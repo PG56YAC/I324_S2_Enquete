@@ -7,7 +7,7 @@ jest.mock('../../src/persistence', () => ({
     getItem: jest.fn(),
 }));
 
-test('it removes item correctly', async () => {
+test('supprime une tâche', async () => {
     const req = { params: { id: 12345 } };
     const res = { sendStatus: jest.fn() };
 
