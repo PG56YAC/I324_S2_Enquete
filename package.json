@@ -28,5 +28,6 @@
       "/node_modules/",
       "/.github/"
     ]
-  }
+  },
+  "description": "Liste de tâches de l'équipe"
 }
