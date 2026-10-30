@@ -1,3 +1,4 @@
+// Supprime une tâche par son identifiant
 const db = require('../persistence');
 
 module.exports = async (req, res) => {
