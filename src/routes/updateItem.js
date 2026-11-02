@@ -1,3 +1,4 @@
+// Met à jour le nom et l état d une tâche
 const db = require('../persistence');
 
 module.exports = async (req, res) => {
