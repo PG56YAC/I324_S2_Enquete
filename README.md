@@ -3,3 +3,7 @@
 ## Installation
 
 `npm install` puis `npm run dev`.
+
+## Tests
+
+`npm test`
