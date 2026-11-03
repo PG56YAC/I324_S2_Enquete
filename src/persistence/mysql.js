@@ -1,3 +1,4 @@
+// Persistance MySQL (utilisée si MYSQL_HOST est défini)
 const waitPort = require('wait-port');
 const fs = require('fs');
 const mysql = require('mysql2');
