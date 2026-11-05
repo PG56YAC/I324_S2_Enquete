@@ -1,3 +1,4 @@
+// Point d entrée du serveur web
 const express = require('express');
 const app = express();
 const db = require('./persistence');
