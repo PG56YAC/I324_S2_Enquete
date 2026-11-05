@@ -7,3 +7,7 @@
 ## Tests
 
 `npm test`
+
+## Équipe
+
+Alice, Bruno, Chloé, David, Emma
