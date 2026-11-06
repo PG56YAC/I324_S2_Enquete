@@ -2,6 +2,6 @@
 const db = require('../persistence');
 
 module.exports = async (req, res) => {
-    await db.removeItem(req.params.id);
+    await db.removeItem(req.params.id); // suppression en base
     res.sendStatus(200);
 };
