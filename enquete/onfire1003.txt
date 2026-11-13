@@ -1,1 +1,1 @@
-test: spec/routes/addItem.spec.js enregistre une nouvelle tâche
+test: enregistre une nouvelle tâche
