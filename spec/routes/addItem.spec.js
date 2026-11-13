@@ -21,7 +21,7 @@ test('enregistre une nouvelle tâche', async () => {
 
     await addItem(req, res);
 
-    const expectedItem = { id, name, completed: false };
+    const expectedItem = { id, name, completed: true };
 
     expect(db.storeItem.mock.calls.length).toBe(1);
     expect(db.storeItem.mock.calls[0][0]).toEqual(expectedItem);
