@@ -7,7 +7,7 @@ jest.mock('../../src/persistence', () => ({
     updateItem: jest.fn(),
 }));
 
-test('met à jour une tâche', async () => {
+test('it updates items correctly', async () => {
     const req = {
         params: { id: 1234 },
         body: { name: 'New title', completed: false },
